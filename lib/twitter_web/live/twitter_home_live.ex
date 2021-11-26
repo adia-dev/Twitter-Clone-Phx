@@ -1,18 +1,55 @@
 defmodule TwitterWeb.TwitterLive.Home do
 use TwitterWeb, :live_view
 
-def mount(_params, _session, socket) do
+alias Twitter.Accounts
+
+def mount(_params, session, socket) do
+user = Accounts.get_user_by_session_token(session["user_token"])
+IO.inspect(user)
+
+socket =
+socket
+|> assign(:handle, user.handle)
+|> assign(:name, user.name)
+|> assign(:email, user.email)
+|> assign(:bio, user.bio)
+|> assign(:pfp_path, user.profile_picture_path)
+|> assign(:banner_path, user.banner_path)
+|> assign(:location, user.location)
+|> assign(:tweets_cnt, user.tweets_cnt)
+|> assign(:liked_tweets_cnt, user.liked_tweets_cnt)
+|> assign(:followers_cnt, user.followers_cnt)
+|> assign(:following_cnt, user.following_cnt)
+|> assign(:edit_profile_opened, false)
+
 {:ok, socket}
+end
+
+def handle_event("open_edit_profile", _params, socket) do
+{:noreply, update(socket, :edit_profile_opened, &(&1 = true))}
+end
+
+def handle_event("close_edit_profile", _params, socket) do
+{:noreply, update(socket, :edit_profile_opened, &(&1 = false))}
 end
 
 def render(assigns) do
 ~H"""
 
-
+<%=
+      if @edit_profile_opened do
+        live_component(TwitterWeb.TwitterLive.EditProfileComponent,
+        name: @name,
+        bio: @bio,
+        location: @location,
+        banner_path: @banner_path,
+      pfp_path: @pfp_path)
+      end
+    %>
 
 <div class="h-screen w-screen flex grid-flow-col">
   <div id="menu" class="sticky h-screen border-r-[1px] border-gray-100
-     w-3/12 pl-32 ">
+         w-3/12 pl-32 ">
     <div class="py-5  flex flex-col items-start space-y-2">
       <div
         class="mx-1 h-10 w-10 flex justify-center items-center cursor-pointer transition-all duration-200 ease-out rounded-full hover:bg-[#cdeaff]">
@@ -27,13 +64,13 @@ def render(assigns) do
       <div
         class="flex items-center w-auto py-2 px-3 rounded-3xl cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-out">
         <!-- FILLED <svg height="28" fill="white" viewBox="0 0 24 24" aria-hidden="true"
-           class="r-18jsvk2 r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">
-           <g>
-             <path
-               d="M22.58 7.35L12.475 1.897c-.297-.16-.654-.16-.95 0L1.425 7.35c-.486.264-.667.87-.405 1.356.18.335.525.525.88.525.16 0 .324-.038.475-.12l.734-.396 1.59 11.25c.216 1.214 1.31 2.062 2.66 2.062h9.282c1.35 0 2.444-.848 2.662-2.088l1.588-11.225.737.398c.485.263 1.092.082 1.354-.404.263-.486.08-1.093-.404-1.355zM12 15.435c-1.795 0-3.25-1.455-3.25-3.25s1.455-3.25 3.25-3.25 3.25 1.455 3.25 3.25-1.455 3.25-3.25 3.25z">
-             </path>
-           </g>
-           </svg> -->
+               class="r-18jsvk2 r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">
+               <g>
+                 <path
+                   d="M22.58 7.35L12.475 1.897c-.297-.16-.654-.16-.95 0L1.425 7.35c-.486.264-.667.87-.405 1.356.18.335.525.525.88.525.16 0 .324-.038.475-.12l.734-.396 1.59 11.25c.216 1.214 1.31 2.062 2.66 2.062h9.282c1.35 0 2.444-.848 2.662-2.088l1.588-11.225.737.398c.485.263 1.092.082 1.354-.404.263-.486.08-1.093-.404-1.355zM12 15.435c-1.795 0-3.25-1.455-3.25-3.25s1.455-3.25 3.25-3.25 3.25 1.455 3.25 3.25-1.455 3.25-3.25 3.25z">
+                 </path>
+               </g>
+               </svg> -->
         <svg class="mr-4" height="28" viewBox="0 0 24 24" aria-hidden="true"
           class="r-18jsvk2 r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">
           <g>
@@ -153,26 +190,28 @@ def render(assigns) do
       <img class="mr-2 rounded-full w-10 h-10 object-cover object-left"
         src="https://pbs.twimg.com/profile_banners/1092408488293224450/1575197403/1500x500" alt="">
       <div class="flex flex-col mr-5">
-        <h3 class="font-bold text-sm">FaiaPanchi</h3>
-        <p class="text-xs text-gray-400">@privateFloat31f</p>
+        <h3 class="font-bold text-sm"><%= @name %></h3>
+        <p class="text-xs text-gray-400"><%= @handle %></p>
       </div>
       <i class="relative right-0 fas fa-ellipsis-h"></i>
     </div>
 
   </div>
-  <div class="sticky w-6/12">
-    <header id="header" class="w-full flex items-center h-16 border-b-[1px] border-gray-100 ">
+
+
+  <div id="header" class="sticky w-6/12">
+    <header class="w-full flex items-center h-16 border-b-[1px] border-gray-100 ">
       <div
         class="mr-5 h-10 w-10 flex justify-center items-center cursor-pointer transition-all duration-200 ease-out rounded-full hover:bg-gray-200">
         <i class="fas fa-arrow-left"></i>
       </div>
       <div class="flex flex-col">
-        <h1 class="font-bold text-xl">FaiaPanchi</h1>
-        <p class="text-xs text-gray-500 font-light">467 Tweets</p>
+        <h1 class="font-bold text-xl"><%= @name %></h1>
+        <p class="text-xs text-gray-500 font-light"><%= @tweets_cnt %> Tweets</p>
       </div>
     </header>
 
-    <div class="w-full h-72 mb-6 object-cover relative">
+    <div id="profile" class="w-full h-72 mb-6 object-cover relative">
       <img class="cursor-pointer" src="https://pbs.twimg.com/profile_banners/1092408488293224450/1575197403/1500x500"
         alt="">
       <div
@@ -180,23 +219,23 @@ def render(assigns) do
         <img class="rounded-full" src="https://pbs.twimg.com/profile_images/1255983864390004738/LAm7-HFj_400x400.jpg"
           alt="">
       </div>
-      <button
+      <button phx-click="open_edit_profile"
         class="absolute font-semibold right-2 px-3.5 py-1.5 -bottom-2 border-[1px] border-gray-300 hover:bg-gray-300 transition-all duration-200 ease-out rounded-3xl">
         Éditer le Profil
       </button>
     </div>
-    <div class="p-3">
-      <div class="flex flex-col">
-        <h3 class="font-bold text-2xl">FaiaPanchi</h3>
-        <p class="text-xs  text-gray-400">@privateFloat31f</p>
+    <div class="py-3">
+      <div class="px-3 flex flex-col">
+        <h3 class="font-bold text-2xl"><%= @name %></h3>
+        <p class="text-xs  text-gray-400">@<%= @handle %></p>
       </div>
 
-      <div class="mt-3 text-sm font-light">
-        <p>Currently learning Unity3d.</p>
+      <div class="px-3 mt-3 text-sm font-light">
+        <p><%= @bio %></p>
         <span class="text-blue-400 cursor-pointer hover:underline hover:text-blue-600">Traduire la biographie</span>
       </div>
 
-      <div class="flex items-center text-gray-400 text-sm font-light  mt-3 space-x-4">
+      <div class="px-3 flex items-center text-gray-400 text-sm font-light  mt-3 space-x-4">
         <div class="flex items-center cursor-pointer">
           <svg fill="#aab0ba" height="22" viewBox="0 0 24 24" aria-hidden="true">
             <g>
@@ -208,9 +247,9 @@ def render(assigns) do
               </path>
             </g>
           </svg>
-          <p>Namek</p>
+          <p><%= @location %></p>
         </div>
-        <div class="flex items-center cursor-pointer">
+        <div class="px-3 flex items-center cursor-pointer">
           <svg fill="#aab0ba" class="mr-1" height="22" viewBox="0 0 24 24" aria-hidden="true">
             <g>
               <path
@@ -230,21 +269,33 @@ def render(assigns) do
         </div>
       </div>
 
-      <div class="flex items-center space-x-4 mt-2">
-        <div class="flex items-end">
-          <h3 class="font-semibold">46</h3>
+      <div class="px-3 flex items-center space-x-4 mt-2 mb-5">
+        <div class="flex items-center cursor-pointer">
+          <h3 class="font-semibold"><%= @following_cnt %></h3>
           <p class="ml-1 text-sm text-gray-400 font-light">abonnements</p>
         </div>
-        <div class="flex items-end">
-          <h3 class="font-semibold">3</h3>
+        <div class="flex items-center cursor-pointer">
+          <h3 class="font-semibold"><%= @followers_cnt %></h3>
           <p class="ml-1 text-sm text-gray-400 font-light">abonnés</p>
         </div>
       </div>
 
+      <div class="flex items-center h-10  cursor-pointer border-b-[1px]">
+        <div class="flex justify-center items-center font-semibold h-full w-full">
+          <h1 class="h-full border-b-4 border-blue-500">Tweets</h1>
+        </div>
+        <div class="flex justify-center w-full items-center h-full hover:bg-gray-100 text-gray-400 font-light">
+          <h1>Tweets et réponses</h1>
+        </div>
+        <div class="flex justify-center w-full items-center h-full hover:bg-gray-100 text-gray-400 font-light">
+          <h1>Médias</h1>
+        </div>
+        <div class="flex justify-center w-full items-center h-full hover:bg-gray-100 text-gray-400 font-light">
+          <h1>J'aime</h1>
+        </div>
+      </div>
+
     </div>
-
-
-
   </div>
 
   <div id="discover" class="sticky w-3/12 border-l-[1px] border-gray-100 ">
@@ -262,10 +313,8 @@ def render(assigns) do
       </div>
     </div>
   </div>
+
 </div>
-
-
-
 """
 end
 end
