@@ -7,7 +7,7 @@ module.exports = {
         "span-16": "span 2 / span 1",
       },
       gridTemplateColumns: {
-        twitter: "1.5fr 1.5fr 1fr",
+        twitter: "1fr 1fr 1fr",
       },
     },
   },

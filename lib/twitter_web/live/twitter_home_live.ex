@@ -10,11 +10,12 @@ def render(assigns) do
 
 
 
-<div class="h-screen w-9/12 grid grid-cols-3 grid-flow-col">
-  <div id="menu" class="h-screen border-r-[1px] border-gray-100
-     w-full pl-32 relative">
+<div class="h-screen w-screen flex grid-flow-col">
+  <div id="menu" class="sticky h-screen border-r-[1px] border-gray-100
+     w-3/12 pl-32 ">
     <div class="py-5  flex flex-col items-start space-y-2">
-      <div class="mx-1">
+      <div
+        class="mx-1 h-10 w-10 flex justify-center items-center cursor-pointer transition-all duration-200 ease-out rounded-full hover:bg-[#cdeaff]">
         <svg height="28" fill="#1D9BF0" viewBox="0 0 24 24" aria-hidden="true">
           <g>
             <path
@@ -147,23 +148,121 @@ def render(assigns) do
 
     <button class="font-semibold mt-7 text-white w-11/12 px-3 py-2 mx-auto rounded-3xl bg-[#1d9bf0]">Tweeter</button>
 
-    <div class="absolute bottom-6 flex items-center rounded-3xl bg-white px-2 cursor-pointer w-7/12 py-2">
+    <div
+      class="absolute bottom-6 flex items-center bg-white w-7/12 py-2 px-3 rounded-3xl cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-out">
       <img class="mr-2 rounded-full w-10 h-10 object-cover object-left"
         src="https://pbs.twimg.com/profile_banners/1092408488293224450/1575197403/1500x500" alt="">
-      <div class="flex flex-col">
+      <div class="flex flex-col mr-5">
         <h3 class="font-bold text-sm">FaiaPanchi</h3>
         <p class="text-xs text-gray-400">@privateFloat31f</p>
       </div>
-      <i class="absolute right-2 top-3 fas fa-ellipsis-h"></i>
+      <i class="relative right-0 fas fa-ellipsis-h"></i>
     </div>
 
   </div>
-  <div id="header" class="col-span-16 h-16 border-b-[1px] border-gray-100">
+  <div class="sticky w-6/12">
+    <header id="header" class="w-full flex items-center h-16 border-b-[1px] border-gray-100 ">
+      <div
+        class="mr-5 h-10 w-10 flex justify-center items-center cursor-pointer transition-all duration-200 ease-out rounded-full hover:bg-gray-200">
+        <i class="fas fa-arrow-left"></i>
+      </div>
+      <div class="flex flex-col">
+        <h1 class="font-bold text-xl">FaiaPanchi</h1>
+        <p class="text-xs text-gray-500 font-light">467 Tweets</p>
+      </div>
+    </header>
+
+    <div class="w-full h-72 mb-6 object-cover relative">
+      <img class="cursor-pointer" src="https://pbs.twimg.com/profile_banners/1092408488293224450/1575197403/1500x500"
+        alt="">
+      <div
+        class="hover:brightness-75 cursor-pointer transition-all duration-300 ease-out absolute p-[3px] left-4 -bottom-6 h-36 w-36 object-cover rounded-full overflow-hidden bg-white">
+        <img class="rounded-full" src="https://pbs.twimg.com/profile_images/1255983864390004738/LAm7-HFj_400x400.jpg"
+          alt="">
+      </div>
+      <button
+        class="absolute font-semibold right-2 px-3.5 py-1.5 -bottom-2 border-[1px] border-gray-300 hover:bg-gray-300 transition-all duration-200 ease-out rounded-3xl">
+        Éditer le Profil
+      </button>
+    </div>
+    <div class="p-3">
+      <div class="flex flex-col">
+        <h3 class="font-bold text-2xl">FaiaPanchi</h3>
+        <p class="text-xs  text-gray-400">@privateFloat31f</p>
+      </div>
+
+      <div class="mt-3 text-sm font-light">
+        <p>Currently learning Unity3d.</p>
+        <span class="text-blue-400 cursor-pointer hover:underline hover:text-blue-600">Traduire la biographie</span>
+      </div>
+
+      <div class="flex items-center text-gray-400 text-sm font-light  mt-3 space-x-4">
+        <div class="flex items-center cursor-pointer">
+          <svg fill="#aab0ba" height="22" viewBox="0 0 24 24" aria-hidden="true">
+            <g>
+              <path
+                d="M12 14.315c-2.088 0-3.787-1.698-3.787-3.786S9.913 6.74 12 6.74s3.787 1.7 3.787 3.787-1.7 3.785-3.787 3.785zm0-6.073c-1.26 0-2.287 1.026-2.287 2.287S10.74 12.814 12 12.814s2.287-1.025 2.287-2.286S13.26 8.24 12 8.24z">
+              </path>
+              <path
+                d="M20.692 10.69C20.692 5.9 16.792 2 12 2s-8.692 3.9-8.692 8.69c0 1.902.603 3.708 1.743 5.223l.003-.002.007.015c1.628 2.07 6.278 5.757 6.475 5.912.138.11.302.163.465.163.163 0 .327-.053.465-.162.197-.155 4.847-3.84 6.475-5.912l.007-.014.002.002c1.14-1.516 1.742-3.32 1.742-5.223zM12 20.29c-1.224-.99-4.52-3.715-5.756-5.285-.94-1.25-1.436-2.742-1.436-4.312C4.808 6.727 8.035 3.5 12 3.5s7.192 3.226 7.192 7.19c0 1.57-.497 3.062-1.436 4.313-1.236 1.57-4.532 4.294-5.756 5.285z">
+              </path>
+            </g>
+          </svg>
+          <p>Namek</p>
+        </div>
+        <div class="flex items-center cursor-pointer">
+          <svg fill="#aab0ba" class="mr-1" height="22" viewBox="0 0 24 24" aria-hidden="true">
+            <g>
+              <path
+                d="M19.708 2H4.292C3.028 2 2 3.028 2 4.292v15.416C2 20.972 3.028 22 4.292 22h15.416C20.972 22 22 20.972 22 19.708V4.292C22 3.028 20.972 2 19.708 2zm.792 17.708c0 .437-.355.792-.792.792H4.292c-.437 0-.792-.355-.792-.792V6.418c0-.437.354-.79.79-.792h15.42c.436 0 .79.355.79.79V19.71z">
+              </path>
+              <circle cx="7.032" cy="8.75" r="1.285"></circle>
+              <circle cx="7.032" cy="13.156" r="1.285"></circle>
+              <circle cx="16.968" cy="8.75" r="1.285"></circle>
+              <circle cx="16.968" cy="13.156" r="1.285"></circle>
+              <circle cx="12" cy="8.75" r="1.285"></circle>
+              <circle cx="12" cy="13.156" r="1.285"></circle>
+              <circle cx="7.032" cy="17.486" r="1.285"></circle>
+              <circle cx="12" cy="17.486" r="1.285"></circle>
+            </g>
+          </svg>
+          <p>A rejoint Twitter en février 2019</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-4 mt-2">
+        <div class="flex items-end">
+          <h3 class="font-semibold">46</h3>
+          <p class="ml-1 text-sm text-gray-400 font-light">abonnements</p>
+        </div>
+        <div class="flex items-end">
+          <h3 class="font-semibold">3</h3>
+          <p class="ml-1 text-sm text-gray-400 font-light">abonnés</p>
+        </div>
+      </div>
+
+    </div>
+
+
+
   </div>
-  <div id="discover" class=" border-l-[1px] border-gray-100">
+
+  <div id="discover" class="sticky w-3/12 border-l-[1px] border-gray-100 ">
+    <div class="h-16 w-full flex justify-center items-center">
+      <div class="bg-gray-200 w-11/12 rounded-3xl flex items-center">
+        <svg class="ml-3" height="22" viewBox="0 0 24 24" aria-hidden="true">
+          <g>
+            <path
+              d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+            </path>
+          </g>
+        </svg>
+        <input class=" w-full p-3 bg-transparent outline-none border-none placeholder-gray-600 text-sm" type="text"
+          placeholder="Recherche Twitter">
+      </div>
+    </div>
   </div>
 </div>
-
 
 
 
