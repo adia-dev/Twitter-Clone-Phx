@@ -1,6 +1,8 @@
 defmodule TwitterWeb.TwitterLive.Sign do
   use TwitterWeb, :live_view
 
+  alias Twitter.Accounts
+
   def mount(_params, _session, socket) do
     socket =
       socket
@@ -11,14 +13,30 @@ defmodule TwitterWeb.TwitterLive.Sign do
     {:ok, socket}
   end
 
-  def handle_event("update_temp", %{"key" => "Escape"}, socket) do
-    socket =
-      socket
-      |> update(:sign_form_opened, &(&1 = false))
-
-    IO.inspect(socket)
+  def handle_event("test", _params, socket) do
+    redirect(socket, to: "/help")
 
     {:noreply, socket}
+  end
+
+  def handle_event(
+        "signup",
+        %{"user" => user},
+        socket
+      ) do
+    create_user(user)
+
+    {:noreply, socket}
+  end
+
+  defp create_user(params) do
+    case Accounts.register_user(params) do
+      {:ok, _} ->
+        {:ok, "User created with success"}
+
+      {:error, _} ->
+        {:error, "Could not create an user"}
+    end
   end
 
   def handle_event("toggle_use_phone", _params, socket) do

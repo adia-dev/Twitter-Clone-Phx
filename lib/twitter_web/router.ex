@@ -21,6 +21,10 @@ defmodule TwitterWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live "/", TwitterLive.Home
+  end
+
+  scope "/", TwitterWeb do
+    pipe_through [:browser]
     live "/sign", TwitterLive.Sign
   end
 
